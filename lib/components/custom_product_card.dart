@@ -36,15 +36,18 @@ class _CustomProductCardState extends State<CustomProductCard> {
               child: Image.network(productImageURL),
             ),
             const SizedBox(height: DimensionResource.D_5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  StringResource.AVAILABLE_IN_STOCK,
-                  style: StyleConstants.SUB_HEADING2,
-                ),
-                Text('($productRatingCount)'),
-              ],
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    StringResource.AVAILABLE_IN_STOCK,
+                    style: StyleConstants.SUB_HEADING2,
+                  ),
+                  Text('($productRatingCount)'),
+                ],
+              ),
             ),
             const SizedBox(height: DimensionResource.D_5),
             Text(

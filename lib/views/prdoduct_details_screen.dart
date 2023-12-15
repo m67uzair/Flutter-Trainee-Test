@@ -41,19 +41,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: DimensionResource.D_10),
-              Container(
-                height: 380,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Image.network(productImage),
-              ),
+              buildProductImage(context, productImage),
               const SizedBox(height: DimensionResource.D_10),
               Text(
                 productTitle,
                 style: StyleConstants.HEADING1.copyWith(color: Colors.black),
               ),
               const SizedBox(height: DimensionResource.D_10),
-              Text(productCategory, style: StyleConstants.SUB_HEADING1,),
+              Text(
+                productCategory,
+                style: StyleConstants.SUB_HEADING1,
+              ),
               const SizedBox(height: DimensionResource.D_10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,10 +72,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               Text(
                 productDescription,
                 textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  fontSize: DimensionResource.FONT_16,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: StyleConstants.SUB_HEADING2.copyWith(fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: DimensionResource.D_20),
               Align(
@@ -93,6 +88,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Container buildProductImage(BuildContext context, String productImage) {
+    return Container(
+      height: 380,
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Image.network(productImage),
     );
   }
 }
