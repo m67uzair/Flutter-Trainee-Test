@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/products_model.dart';
 import 'package:http/http.dart' as http;
 
-class ProductsProvider extends ChangeNotifier {
-  bool _isLoading = true;
+class ProductsController {
   final List<ProductsModel> _allProductsList = [];
 
-  bool get isLoading => _isLoading;
 
   List<ProductsModel> get allProductsList => _allProductsList;
 
-  Future<List<ProductsModel>> fetchAllProducts() async {
+  Future<List<ProductsModel>> fetchAllProductsFromAPI() async {
     _allProductsList.clear();
 
     try {
@@ -34,8 +33,17 @@ class ProductsProvider extends ChangeNotifier {
       Fluttertoast.showToast(msg: 'An error occurred: ${e.toString()}');
 
     }
-      _isLoading = false;
-      notifyListeners();
     return _allProductsList;
   }
+
+  Future<List<ProductsModel>> fetchAllProductsFromFile() async {
+    _allProductsList.clear();
+    String jsonString  = await rootBundle.loadString('assets/files/ProductsData.json');
+    var data = jsonDecode(jsonString);
+    for(Map i in data){
+      _allProductsList.add(ProductsModel.fromJson(i));
+    }
+    return _allProductsList;
+  }
+
 }
