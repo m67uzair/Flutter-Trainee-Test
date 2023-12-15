@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:muhammad_uzair_flutter_trainee_test/components/custom_app_bar.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/components/product_card.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/constants/app_colors.dart';
-import 'package:muhammad_uzair_flutter_trainee_test/constants/dimension_resource.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/constants/string_resource.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/controllers/products_provider.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/models/products_model.dart';
-import 'package:provider/provider.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -26,35 +26,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
-        backgroundColor: AppColors.primaryColor,
-        centerTitle: true,
-        title: const Text(
-          StringResource.PRODUCTS,
-          style: TextStyle(
-            fontSize: DimensionResource.FONT_25,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        toolbarHeight: DimensionResource.D_60,
-        actionsIconTheme: const IconThemeData(color: Colors.white),
-        actions: const [
-          Icon(
-            Icons.shopping_cart_rounded,
-          ),
-          SizedBox(width: DimensionResource.D_20),
-          Icon(
-            Icons.menu_rounded,
-            size: DimensionResource.D_32,
-          ),
-          SizedBox(width: DimensionResource.D_10),
-        ],
-      ),
+      appBar: buildAppBar(appBarTitle: StringResource.PRODUCTS),
       body: FutureBuilder(
           future: _productsProvider.fetchAllProducts(),
           builder: (context, snapshot) {
@@ -64,20 +36,34 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 color: AppColors.primaryColor,
               ));
             } else if (snapshot.hasData) {
-              return GridView.builder(
-                  itemCount: 20,
-                  gridDelegate:
-                      const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, mainAxisExtent: 290),
-                  itemBuilder: (context, index) {
-                    ProductsModel product = snapshot.data?[index] ?? ProductsModel();
-                    return ProductCard(
-                      product: product,
-                    );
-                  });
+              List<ProductsModel> productsSnapshot = snapshot.data ?? [];
+              return buildProductsGrid(productsSnapshot: productsSnapshot);
             } else {
-              return const Center(child: Text('An Error occurred, check your connection and try again.'));
+              return const Center(child: Text(StringResource.ERROR_OCCURRED));
             }
           }),
     );
+  }
+}
+
+class buildProductsGrid extends StatelessWidget {
+  const buildProductsGrid({
+    super.key,
+    required this.productsSnapshot,
+  });
+
+  final List<ProductsModel> productsSnapshot;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+        itemCount: productsSnapshot.length,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, mainAxisExtent: 290),
+        itemBuilder: (context, index) {
+          ProductsModel product = productsSnapshot[index];
+          return ProductCard(
+            product: product,
+          );
+        });
   }
 }

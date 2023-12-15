@@ -4,6 +4,7 @@ class DimensionResource {
   static const double D_5 = 5.00;
   static const double D_10 = 10.00;
   static const double D_20 = 20.00;
+  static const double D_25 = 25.00;
   static const double D_32 = 32.00;
   static const double D_50 = 50.00;
   static const double D_60 = 60.00;
