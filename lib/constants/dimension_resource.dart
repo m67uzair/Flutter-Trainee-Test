@@ -3,6 +3,7 @@ class DimensionResource {
   static const double D_2 = 2.00;
   static const double D_5 = 5.00;
   static const double D_10 = 10.00;
+  static const double D_15 = 15.00;
   static const double D_20 = 20.00;
   static const double D_25 = 25.00;
   static const double D_32 = 32.00;
@@ -21,6 +22,7 @@ class DimensionResource {
   static const FONT_16 = 16.00;
   static const FONT_18 = 18.00;
   static const FONT_20 = 20.00;
+  static const FONT_23 = 23.00;
   static const FONT_25 = 25.00;
   static const FONT_32 = 32.00;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/controllers/products_provider.dart';
+
 import 'package:muhammad_uzair_flutter_trainee_test/views/products_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<ProductsProvider>(
       create: (context) => ProductsProvider(),
       child: MaterialApp(
         title: 'Flutter Trainee Test',
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const ProductsScreen(),
+
       ),
     );
   }

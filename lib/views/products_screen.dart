@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:muhammad_uzair_flutter_trainee_test/constants/dimension_resource.dart';
+import 'package:muhammad_uzair_flutter_trainee_test/constants/style_constants.dart';
+import 'package:muhammad_uzair_flutter_trainee_test/views/prdoduct_details_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/components/custom_app_bar.dart';
-import 'package:muhammad_uzair_flutter_trainee_test/components/product_card.dart';
+import 'package:muhammad_uzair_flutter_trainee_test/components/custom_product_card.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/constants/app_colors.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/constants/string_resource.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/controllers/products_provider.dart';
@@ -20,15 +23,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
     super.initState();
-    _productsProvider = Provider.of<ProductsProvider>(context, listen: false);
+    _productsProvider = Provider.of<ProductsProvider>(context,listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(appBarTitle: StringResource.PRODUCTS),
-      body: FutureBuilder(
-          future: _productsProvider.fetchAllProducts(),
+      appBar: customAppBar(appBarTitle: StringResource.PRODUCTS),
+      body: FutureBuilder<List<ProductsModel>>(
+          future: _productsProvider.fetchAllProductsFromAPI(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -61,8 +64,18 @@ class buildProductsGrid extends StatelessWidget {
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, mainAxisExtent: 290),
         itemBuilder: (context, index) {
           ProductsModel product = productsSnapshot[index];
-          return ProductCard(
-            product: product,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailsScreen(productsModel: product),
+                ),
+              );
+            },
+            child: CustomProductCard(
+              product: product,
+            ),
           );
         });
   }

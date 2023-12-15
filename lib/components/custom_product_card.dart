@@ -4,19 +4,17 @@ import 'package:muhammad_uzair_flutter_trainee_test/constants/string_resource.da
 import 'package:muhammad_uzair_flutter_trainee_test/constants/style_constants.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/models/products_model.dart';
 import 'package:muhammad_uzair_flutter_trainee_test/utils/extension_functions.dart';
-import 'package:provider/provider.dart';
 
-class ProductCard extends StatefulWidget {
-  //passing ProductModel object from ProductScreen to save an api call
+class CustomProductCard extends StatefulWidget {
   final ProductsModel product;
 
-  const ProductCard({Key? key, required this.product}) : super(key: key);
+  const CustomProductCard({Key? key, required this.product}) : super(key: key);
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  State<CustomProductCard> createState() => _CustomProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _CustomProductCardState extends State<CustomProductCard> {
   @override
   Widget build(BuildContext context) {
     final String productTitle = widget.product.title ?? "";
@@ -43,7 +41,7 @@ class _ProductCardState extends State<ProductCard> {
               children: [
                 const Text(
                   StringResource.AVAILABLE_IN_STOCK,
-                  style: StyleConstants.SUB_HEADING,
+                  style: StyleConstants.SUB_HEADING2,
                 ),
                 Text('($productRatingCount)'),
               ],
@@ -60,32 +58,48 @@ class _ProductCardState extends State<ProductCard> {
               style: const TextStyle(fontSize: DimensionResource.FONT_16),
             ),
             const SizedBox(height: DimensionResource.D_5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "$productPrice\$",
-                  style: StyleConstants.HEADING2.copyWith(
-                    fontSize: DimensionResource.FONT_20,
-                  ),
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    Text(
-                      "$productRating",
-                      style: StyleConstants.HEADING2,
-                    ),
-                  ],
-                )
-              ],
-            )
+            ProductPriceAndRatingRow(productPrice: productPrice, productRating: productRating)
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProductPriceAndRatingRow extends StatelessWidget {
+  const ProductPriceAndRatingRow({
+    super.key,
+    required this.productPrice,
+    required this.productRating,
+  });
+
+  final double productPrice;
+  final double productRating;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "$productPrice\$",
+          style: StyleConstants.HEADING2.copyWith(
+            fontSize: DimensionResource.FONT_20,
+          ),
+        ),
+        Row(
+          children: [
+            const Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            Text(
+              "$productRating",
+              style: StyleConstants.HEADING2,
+            ),
+          ],
+        )
+      ],
     );
   }
 }
